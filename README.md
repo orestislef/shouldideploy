@@ -8,7 +8,7 @@ A fun deployment decision tool that helps developers decide whether they should 
 Interactive web interface that provides a user-friendly form to check if you should deploy today.
 
 **Features:**
-- Language selection (English/Greek/Bulgarian)
+- Language selection (English/Greek/Bulgarian), the whole ui follows the chosen language
 - Timezone selection 
 - Custom date picker
 - Real-time API integration

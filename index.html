@@ -390,8 +390,8 @@
 <body>
     <div class="container">
         <div class="deployment-box">
-            <h1 class="logo">Should I Deploy?</h1>
-            <p class="subtitle">Make informed deployment decisions</p>
+            <h1 class="logo" data-i18n="heading">Should I Deploy?</h1>
+            <p class="subtitle" data-i18n="subtitle">Make informed deployment decisions</p>
 
             <form id="deployForm">
                 <div class="form-group">
@@ -404,7 +404,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="timezone">Timezone</label>
+                    <label for="timezone" data-i18n="timezone">Timezone</label>
                     <select id="timezone" name="tz">
                         <option value="UTC">UTC</option>
                         <option value="Europe/Athens">Europe/Athens</option>
@@ -419,15 +419,15 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="customDate">Custom Date (optional)</label>
+                    <label for="customDate" data-i18n="customDate">Custom Date (optional)</label>
                     <input type="date" id="customDate" name="date">
                 </div>
 
-                <button type="submit">Check Deployment Status</button>
+                <button type="submit" data-i18n="check">Check Deployment Status</button>
             </form>
 
             <div class="loading" id="loading">
-                <p>Checking deployment status...</p>
+                <p data-i18n="loading">Checking deployment status...</p>
             </div>
 
             <div class="result" id="result">
@@ -437,20 +437,128 @@
             </div>
 
             <div class="examples">
-                <h3>Direct API Access</h3>
+                <h3 data-i18n="apiTitle">Direct API Access</h3>
                 <ul>
-                    <li><a href="https://orestislef.gr/shouldideploy/api.php" target="_blank">Default (English, UTC)</a></li>
-                    <li><a href="https://orestislef.gr/shouldideploy/api.php?lang=el" target="_blank">Greek language</a></li>
-                    <li><a href="https://orestislef.gr/shouldideploy/api.php?lang=el&tz=Europe/Athens" target="_blank">Greek + Athens timezone</a></li>
-                    <li><a href="https://orestislef.gr/shouldideploy/api.php?lang=bg&tz=Europe/Sofia" target="_blank">Bulgarian + Sofia timezone</a></li>
-                    <li><a href="https://orestislef.gr/shouldideploy/api.php?date=2024-12-25&lang=el" target="_blank">Christmas Day in Greek</a></li>
-                    <li><a href="https://orestislef.gr/shouldideploy/api.php?date=2024-12-06&lang=en" target="_blank">Friday the 6th (English)</a></li>
+                    <li><a href="https://orestislef.gr/shouldideploy/api.php" target="_blank" data-i18n="exDefault">Default (English, UTC)</a></li>
+                    <li><a href="https://orestislef.gr/shouldideploy/api.php?lang=el" target="_blank" data-i18n="exGreek">Greek language</a></li>
+                    <li><a href="https://orestislef.gr/shouldideploy/api.php?lang=el&tz=Europe/Athens" target="_blank" data-i18n="exGreekAthens">Greek + Athens timezone</a></li>
+                    <li><a href="https://orestislef.gr/shouldideploy/api.php?lang=bg&tz=Europe/Sofia" target="_blank" data-i18n="exBulgarianSofia">Bulgarian + Sofia timezone</a></li>
+                    <li><a href="https://orestislef.gr/shouldideploy/api.php?date=2024-12-25&lang=el" target="_blank" data-i18n="exChristmasGreek">Christmas Day in Greek</a></li>
+                    <li><a href="https://orestislef.gr/shouldideploy/api.php?date=2024-12-06&lang=en" target="_blank" data-i18n="exFriday">Friday the 6th (English)</a></li>
                 </ul>
             </div>
         </div>
     </div>
 
     <script>
+        const UI_STRINGS = {
+            en: {
+                pageTitle: 'Should I Deploy Today? - Deployment Decision Tool',
+                heading: 'Should I Deploy?',
+                subtitle: 'Make informed deployment decisions',
+                timezone: 'Timezone',
+                customDate: 'Custom Date (optional)',
+                check: 'Check Deployment Status',
+                loading: 'Checking deployment status...',
+                deployYes: 'Deploy Authorized',
+                deployNo: 'Deploy Not Recommended',
+                statusYes: 'Authorized',
+                statusNo: 'Not Recommended',
+                detailTimezone: 'Timezone',
+                detailDate: 'Date',
+                detailStatus: 'Status',
+                error: 'Error',
+                connectionFailed: 'Connection Failed',
+                connectionMessage: 'Unable to connect to deployment service',
+                apiTitle: 'Direct API Access',
+                exDefault: 'Default (English, UTC)',
+                exGreek: 'Greek language',
+                exGreekAthens: 'Greek + Athens timezone',
+                exBulgarianSofia: 'Bulgarian + Sofia timezone',
+                exChristmasGreek: 'Christmas Day in Greek',
+                exFriday: 'Friday the 6th (English)'
+            },
+            el: {
+                pageTitle: 'Να κάνω deploy σήμερα; - Should I Deploy?',
+                heading: 'Να κάνω deploy;',
+                subtitle: 'Μάθε αν σήμερα είναι μέρα για deploy',
+                timezone: 'Ζώνη ώρας',
+                customDate: 'Ημερομηνία (προαιρετικά)',
+                check: 'Έλεγχος',
+                loading: 'Για να δούμε...',
+                deployYes: 'Πράσινο φως για deploy',
+                deployNo: 'Καλύτερα όχι σήμερα',
+                statusYes: 'Εγκρίνεται',
+                statusNo: 'Δεν προτείνεται',
+                detailTimezone: 'Ζώνη ώρας',
+                detailDate: 'Ημερομηνία',
+                detailStatus: 'Κατάσταση',
+                error: 'Σφάλμα',
+                connectionFailed: 'Αποτυχία σύνδεσης',
+                connectionMessage: 'Δεν μπόρεσα να συνδεθώ με το API',
+                apiTitle: 'Απευθείας πρόσβαση στο API',
+                exDefault: 'Προεπιλογή (αγγλικά, UTC)',
+                exGreek: 'Στα ελληνικά',
+                exGreekAthens: 'Ελληνικά + ώρα Αθήνας',
+                exBulgarianSofia: 'Βουλγαρικά + ώρα Σόφιας',
+                exChristmasGreek: 'Χριστούγεννα στα ελληνικά',
+                exFriday: 'Παρασκευή 6 Δεκεμβρίου (αγγλικά)'
+            },
+            bg: {
+                pageTitle: 'Да деплойна ли днес? - Should I Deploy?',
+                heading: 'Да деплойна ли?',
+                subtitle: 'Разбери дали днес е ден за деплой',
+                timezone: 'Часова зона',
+                customDate: 'Дата (по желание)',
+                check: 'Провери',
+                loading: 'Проверявам...',
+                deployYes: 'Зелена светлина за деплой',
+                deployNo: 'По-добре не днес',
+                statusYes: 'Одобрено',
+                statusNo: 'Не се препоръчва',
+                detailTimezone: 'Часова зона',
+                detailDate: 'Дата',
+                detailStatus: 'Статус',
+                error: 'Грешка',
+                connectionFailed: 'Няма връзка',
+                connectionMessage: 'Не успях да се свържа с API-то',
+                apiTitle: 'Директен достъп до API-то',
+                exDefault: 'По подразбиране (английски, UTC)',
+                exGreek: 'На гръцки',
+                exGreekAthens: 'Гръцки + часът в Атина',
+                exBulgarianSofia: 'Български + часът в София',
+                exChristmasGreek: 'Коледа на гръцки',
+                exFriday: 'Петък, 6 декември (английски)'
+            }
+        };
+
+        const DATE_LOCALES = { en: undefined, el: 'el-GR', bg: 'bg-BG' };
+
+        const languageSelect = document.getElementById('language');
+
+        function t(key) {
+            return (UI_STRINGS[languageSelect.value] || UI_STRINGS.en)[key];
+        }
+
+        function applyLanguage() {
+            const lang = UI_STRINGS[languageSelect.value] ? languageSelect.value : 'en';
+            document.documentElement.lang = lang;
+            document.title = t('pageTitle');
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                el.textContent = t(el.dataset.i18n);
+            });
+        }
+
+        languageSelect.addEventListener('change', function() {
+            localStorage.setItem('shouldideploy-lang', languageSelect.value);
+            applyLanguage();
+
+            // Fetch again so the message matches the new language too
+            if (document.getElementById('result').style.display === 'block') {
+                document.getElementById('deployForm').requestSubmit();
+            }
+        });
+
         // Deploy form functionality
         document.getElementById('deployForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -477,21 +585,21 @@
                 loading.style.display = 'none';
 
                 if (data.error) {
-                    showResult('Error', data.error.message, '', 'danger');
+                    showResult(t('error'), data.error.message, '', 'danger');
                 } else {
-                    const title = data.shouldideploy ? 'Deploy Authorized' : 'Deploy Not Recommended';
+                    const title = data.shouldideploy ? t('deployYes') : t('deployNo');
                     const cssClass = data.shouldideploy ? 'success' : 'danger';
                     const details = `
-                        <strong>Timezone:</strong> ${data.timezone}<br>
-                        <strong>Date:</strong> ${new Date(data.date).toLocaleString()}<br>
-                        <strong>Status:</strong> ${data.shouldideploy ? 'Authorized' : 'Not Recommended'}
+                        <strong>${t('detailTimezone')}:</strong> ${data.timezone}<br>
+                        <strong>${t('detailDate')}:</strong> ${new Date(data.date).toLocaleString(DATE_LOCALES[languageSelect.value])}<br>
+                        <strong>${t('detailStatus')}:</strong> ${data.shouldideploy ? t('statusYes') : t('statusNo')}
                     `;
 
                     showResult(title, data.message, details, cssClass);
                 }
             } catch (error) {
                 loading.style.display = 'none';
-                showResult('Connection Failed', 'Unable to connect to deployment service', error.message, 'danger');
+                showResult(t('connectionFailed'), t('connectionMessage'), error.message, 'danger');
             }
         });
 
@@ -514,6 +622,12 @@
 
         // Set current date as default
         document.getElementById('customDate').valueAsDate = new Date();
+
+        // Use the saved language, otherwise the browser's if we have it
+        const savedLang = localStorage.getItem('shouldideploy-lang');
+        const browserLang = (navigator.language || 'en').slice(0, 2);
+        languageSelect.value = UI_STRINGS[savedLang] ? savedLang : (UI_STRINGS[browserLang] ? browserLang : 'en');
+        applyLanguage();
     </script>
 </body>
 </html>
