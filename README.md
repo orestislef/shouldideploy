@@ -8,7 +8,7 @@ A fun deployment decision tool that helps developers decide whether they should 
 Interactive web interface that provides a user-friendly form to check if you should deploy today.
 
 **Features:**
-- Language selection (English/Greek)
+- Language selection (English/Greek/Bulgarian)
 - Timezone selection 
 - Custom date picker
 - Real-time API integration
@@ -19,7 +19,7 @@ Interactive web interface that provides a user-friendly form to check if you sho
 RESTful API backend that contains the deployment decision logic.
 
 **Features:**
-- Multi-language support (English/Greek)
+- Multi-language support (English/Greek/Bulgarian)
 - Timezone-aware date handling
 - Custom date support
 - JSON response format
@@ -33,7 +33,7 @@ GET api.php
 ```
 
 ### Parameters
-- `lang` - Language code (`en` or `el`, defaults to `en`)
+- `lang` - Language code (`en`, `el` or `bg`, defaults to `en`)
 - `tz` - Timezone (defaults to `UTC`)
 - `date` - Custom date in YYYY-MM-DD format (optional)
 
@@ -47,6 +47,9 @@ api.php?lang=el&tz=Europe/Athens
 
 # Custom date
 api.php?date=2024-12-25&lang=en
+
+# Bulgarian language with Sofia timezone
+api.php?lang=bg&tz=Europe/Sofia
 ```
 
 ### Response Format

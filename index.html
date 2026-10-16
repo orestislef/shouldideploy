@@ -395,10 +395,11 @@
 
             <form id="deployForm">
                 <div class="form-group">
-                    <label for="language">Language / Γλώσσα</label>
+                    <label for="language">Language / Γλώσσα / Език</label>
                     <select id="language" name="lang">
                         <option value="en">English</option>
                         <option value="el">Ελληνικά (Greek)</option>
+                        <option value="bg">Български (Bulgarian)</option>
                     </select>
                 </div>
 
@@ -407,6 +408,7 @@
                     <select id="timezone" name="tz">
                         <option value="UTC">UTC</option>
                         <option value="Europe/Athens">Europe/Athens</option>
+                        <option value="Europe/Sofia">Europe/Sofia</option>
                         <option value="America/New_York">America/New_York</option>
                         <option value="America/Los_Angeles">America/Los_Angeles</option>
                         <option value="Europe/London">Europe/London</option>
@@ -440,6 +442,7 @@
                     <li><a href="https://orestislef.gr/shouldideploy/api.php" target="_blank">Default (English, UTC)</a></li>
                     <li><a href="https://orestislef.gr/shouldideploy/api.php?lang=el" target="_blank">Greek language</a></li>
                     <li><a href="https://orestislef.gr/shouldideploy/api.php?lang=el&tz=Europe/Athens" target="_blank">Greek + Athens timezone</a></li>
+                    <li><a href="https://orestislef.gr/shouldideploy/api.php?lang=bg&tz=Europe/Sofia" target="_blank">Bulgarian + Sofia timezone</a></li>
                     <li><a href="https://orestislef.gr/shouldideploy/api.php?date=2024-12-25&lang=el" target="_blank">Christmas Day in Greek</a></li>
                     <li><a href="https://orestislef.gr/shouldideploy/api.php?date=2024-12-06&lang=en" target="_blank">Friday the 6th (English)</a></li>
                 </ul>
