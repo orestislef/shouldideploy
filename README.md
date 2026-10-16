@@ -2,57 +2,46 @@
 
 A fun deployment decision tool that helps developers decide whether they should deploy their code based on the current day, time, and special conditions.
 
+Live at https://orestislef.gr/shouldideploy/
+
+This is a PHP port of [baires/shouldideploy](https://github.com/baires/shouldideploy) (Next.js), kept in sync with upstream and with Greek and Bulgarian added.
+
+![shouldideploy](https://orestislef.gr/shouldideploy/badge.php?tz=Europe/Athens)
+
 ## Files
 
-### `index.html`
-Interactive web interface that provides a user-friendly form to check if you should deploy today.
+- `index.html` web ui. Language picker at the top, timezone, optional date, live docs for the api.
+- `api.php` JSON endpoint
+- `badge.php` SVG badge for READMEs
+- `cli.php` plain text endpoint for scripts and CI
+- `lib.php` shared logic (time checks, picking the reasons)
+- `locales/*.json` the reasons per language, same format as upstream
 
-**Features:**
-- Language selection (English/Greek/Bulgarian), the whole ui follows the chosen language
-- Timezone selection 
-- Custom date picker
-- Real-time API integration
-- Responsive design with loading states
-- Direct API examples
+## Languages
 
-### `api.php`
-RESTful API backend that contains the deployment decision logic.
+`en`, `es`, `es-AR`, `pt`, `cs`, `sl` come straight from upstream. `el` and `bg` are ours.
 
-**Features:**
-- Multi-language support (English/Greek/Bulgarian)
-- Timezone-aware date handling
-- Custom date support
-- JSON response format
-- CORS headers for cross-origin requests
+`lang` falls back the same way upstream does: exact match (`es-AR`), then the base language (`es`), then English.
 
-## API Usage
+## API
 
-### Endpoint
+### JSON
+
 ```
 GET api.php
 ```
 
-### Parameters
-- `lang` - Language code (`en`, `el` or `bg`, defaults to `en`)
-- `tz` - Timezone (defaults to `UTC`)
-- `date` - Custom date in YYYY-MM-DD format (optional)
+- `lang` language code, defaults to `en`
+- `tz` timezone, defaults to `UTC`
+- `date` custom date in YYYY-MM-DD format (optional)
 
-### Example Requests
 ```
-# Default (English, UTC, current date)
 api.php
-
-# Greek language with Athens timezone
 api.php?lang=el&tz=Europe/Athens
-
-# Custom date
-api.php?date=2024-12-25&lang=en
-
-# Bulgarian language with Sofia timezone
 api.php?lang=bg&tz=Europe/Sofia
+api.php?date=2024-12-25&lang=es
 ```
 
-### Response Format
 ```json
 {
   "timezone": "UTC",
@@ -61,6 +50,22 @@ api.php?lang=bg&tz=Europe/Sofia
   "message": "No, it's Friday"
 }
 ```
+
+### Badge
+
+```
+![Should I Deploy?](https://orestislef.gr/shouldideploy/badge.php?tz=Europe/Athens)
+```
+
+Supports `tz`, `lang` and `style` (`flat` default, `flat-square`, `plastic`, `for-the-badge`, `social`).
+
+### CLI
+
+```
+curl --fail -s "https://orestislef.gr/shouldideploy/cli.php?tz=Europe/Athens" && ./deploy.sh
+```
+
+Returns `[shouldideploy] YES: <reason>` with HTTP 200 when it's fine to deploy, or `[shouldideploy] NO: <reason>` with HTTP 423 when not, so `curl --fail` blocks the deploy. Supports `tz` and `lang`.
 
 ## Deployment Logic
 
@@ -77,8 +82,8 @@ Otherwise, it recommends deploying with encouraging messages.
 
 ## Setup
 
-1. Place both files on a web server with PHP support
-2. Access `index.html` in your browser
-3. The API at `api.php` will be automatically called
+Copy everything (including `locales/`) to a web server with PHP. No extensions or other dependencies needed.
 
-No additional dependencies or setup required.
+## Syncing with upstream
+
+Copy the json files from upstream `locales/` over ours. Leave `el.json` and `bg.json` alone, and if upstream added new reasons, add the Greek and Bulgarian versions by hand.

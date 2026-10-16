@@ -32,6 +32,7 @@
         .container {
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 60px 20px;
@@ -247,6 +248,7 @@
         .result .message {
             font-size: 17px;
             margin-bottom: 16px;
+            white-space: pre-line;
             color: #1d1d1f;
             line-height: 1.47059;
         }
@@ -295,65 +297,155 @@
             50% { opacity: 1; }
         }
 
-        .examples {
-            margin-top: 48px;
-            padding: 32px;
-            background: rgba(0, 113, 227, 0.05);
-            border: 1px solid rgba(0, 113, 227, 0.2);
-            border-radius: 18px;
+        .topbar {
+            width: 100%;
+            max-width: 680px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
         }
 
-        @media (prefers-color-scheme: dark) {
-            .examples {
-                background: rgba(41, 151, 255, 0.08);
-                border-color: rgba(41, 151, 255, 0.3);
-            }
-        }
-
-        .examples h3 {
-            margin: 0 0 16px 0;
+        .topbar-link {
             color: #0071e3;
-            font-size: 21px;
-            font-weight: 600;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .topbar-link:hover {
+            text-decoration: underline;
         }
 
         @media (prefers-color-scheme: dark) {
-            .examples h3 {
+            .topbar-link {
                 color: #2997ff;
             }
         }
 
-        .examples ul {
-            margin: 0;
-            padding-left: 20px;
-        }
-
-        .examples li {
-            margin-bottom: 10px;
+        .lang-picker {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            height: 36px;
+            padding: 0 14px 0 12px;
+            border-radius: 18px;
+            background: rgba(118, 118, 128, 0.12);
             color: #1d1d1f;
+            transition: box-shadow 0.2s cubic-bezier(0.28, 0.11, 0.32, 1);
         }
 
         @media (prefers-color-scheme: dark) {
-            .examples li {
+            .lang-picker {
+                background: rgba(118, 118, 128, 0.24);
                 color: #f5f5f7;
             }
         }
 
-        .examples a {
-            color: #0071e3;
-            text-decoration: none;
+        .lang-picker:focus-within {
+            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.15);
+        }
+
+        .lang-picker svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+        .lang-picker::after {
+            content: '';
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            width: 6px;
+            height: 6px;
+            border-right: 1.5px solid currentColor;
+            border-bottom: 1.5px solid currentColor;
+            transform: translateY(-70%) rotate(45deg);
+            pointer-events: none;
+        }
+
+        .lang-picker select,
+        .lang-picker select:focus {
+            width: auto;
+            padding: 0 18px 0 0;
+            border: none;
+            border-radius: 0;
+            background: transparent;
+            color: inherit;
+            font-size: 15px;
             font-weight: 500;
-            transition: all 0.2s ease;
+            cursor: pointer;
+            box-shadow: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .docs {
+            margin-top: 24px;
+        }
+
+        .docs h2 {
+            font-size: 32px;
+            font-weight: 600;
+            letter-spacing: -0.003em;
+        }
+
+        .docs h3 {
+            margin: 32px 0 8px;
+            font-size: 19px;
+            font-weight: 600;
+        }
+
+        .docs p {
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: #6e6e73;
         }
 
         @media (prefers-color-scheme: dark) {
-            .examples a {
+            .docs p {
+                color: #a1a1a6;
+            }
+        }
+
+        .docs pre {
+            padding: 14px 16px;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.04);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .docs pre {
+                background: rgba(255, 255, 255, 0.06);
+            }
+        }
+
+        .docs pre a {
+            color: #0071e3;
+            text-decoration: none;
+        }
+
+        .docs pre a:hover {
+            text-decoration: underline;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .docs pre a {
                 color: #2997ff;
             }
         }
 
-        .examples a:hover {
-            text-decoration: underline;
+        .badge-preview {
+            display: block;
+            max-width: 100%;
+            margin-bottom: 12px;
         }
 
         @media (max-width: 768px) {
@@ -389,20 +481,28 @@
 </head>
 <body>
     <div class="container">
+        <header class="topbar">
+            <a class="topbar-link" href="#api">API</a>
+            <label class="lang-picker">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg>
+                <select id="language" aria-label="Language">
+                    <option value="en">English</option>
+                    <option value="el">Ελληνικά</option>
+                    <option value="bg">Български</option>
+                    <option value="es">Español</option>
+                    <option value="es-AR">Español (Argentina)</option>
+                    <option value="pt">Português</option>
+                    <option value="cs">Čeština</option>
+                    <option value="sl">Slovenščina</option>
+                </select>
+            </label>
+        </header>
+
         <div class="deployment-box">
             <h1 class="logo" data-i18n="heading">Should I Deploy?</h1>
             <p class="subtitle" data-i18n="subtitle">Make informed deployment decisions</p>
 
             <form id="deployForm">
-                <div class="form-group">
-                    <label for="language">Language / Γλώσσα / Език</label>
-                    <select id="language" name="lang">
-                        <option value="en">English</option>
-                        <option value="el">Ελληνικά (Greek)</option>
-                        <option value="bg">Български (Bulgarian)</option>
-                    </select>
-                </div>
-
                 <div class="form-group">
                     <label for="timezone" data-i18n="timezone">Timezone</label>
                     <select id="timezone" name="tz">
@@ -436,26 +536,37 @@
                 <div class="details" id="resultDetails"></div>
             </div>
 
-            <div class="examples">
-                <h3 data-i18n="apiTitle">Direct API Access</h3>
-                <ul>
-                    <li><a href="https://orestislef.gr/shouldideploy/api.php" target="_blank" data-i18n="exDefault">Default (English, UTC)</a></li>
-                    <li><a href="https://orestislef.gr/shouldideploy/api.php?lang=el" target="_blank" data-i18n="exGreek">Greek language</a></li>
-                    <li><a href="https://orestislef.gr/shouldideploy/api.php?lang=el&tz=Europe/Athens" target="_blank" data-i18n="exGreekAthens">Greek + Athens timezone</a></li>
-                    <li><a href="https://orestislef.gr/shouldideploy/api.php?lang=bg&tz=Europe/Sofia" target="_blank" data-i18n="exBulgarianSofia">Bulgarian + Sofia timezone</a></li>
-                    <li><a href="https://orestislef.gr/shouldideploy/api.php?date=2024-12-25&lang=el" target="_blank" data-i18n="exChristmasGreek">Christmas Day in Greek</a></li>
-                    <li><a href="https://orestislef.gr/shouldideploy/api.php?date=2024-12-06&lang=en" target="_blank" data-i18n="exFriday">Friday the 6th (English)</a></li>
-                </ul>
-            </div>
         </div>
+
+        <section class="deployment-box docs" id="api">
+            <h2>API</h2>
+
+            <h3>JSON</h3>
+            <p data-i18n="jsonDesc">Returns the verdict and a random reason. Params: tz, lang, date.</p>
+            <pre><a id="jsonExample" target="_blank" rel="noopener"></a></pre>
+
+            <h3 data-i18n="badgeTitle">Badge</h3>
+            <p data-i18n="badgeDesc">Live SVG badge for your README. Params: tz, lang, style (flat, flat-square, plastic, for-the-badge, social).</p>
+            <img class="badge-preview" id="badgePreview" alt="shouldideploy badge">
+            <pre><code id="badgeExample"></code></pre>
+
+            <h3>CLI</h3>
+            <p data-i18n="cliDesc">Plain text. HTTP 200 when it is safe, 423 when it is not, so curl --fail stops the deploy.</p>
+            <pre><code id="cliExample"></code></pre>
+        </section>
     </div>
 
     <script>
+        const API_BASE = 'https://orestislef.gr/shouldideploy/';
+
+        const STYLES_HINT = 'flat, flat-square, plastic, for-the-badge, social';
+
         const UI_STRINGS = {
             en: {
                 pageTitle: 'Should I Deploy Today? - Deployment Decision Tool',
                 heading: 'Should I Deploy?',
                 subtitle: 'Make informed deployment decisions',
+                language: 'Language',
                 timezone: 'Timezone',
                 customDate: 'Custom Date (optional)',
                 check: 'Check Deployment Status',
@@ -470,18 +581,16 @@
                 error: 'Error',
                 connectionFailed: 'Connection Failed',
                 connectionMessage: 'Unable to connect to deployment service',
-                apiTitle: 'Direct API Access',
-                exDefault: 'Default (English, UTC)',
-                exGreek: 'Greek language',
-                exGreekAthens: 'Greek + Athens timezone',
-                exBulgarianSofia: 'Bulgarian + Sofia timezone',
-                exChristmasGreek: 'Christmas Day in Greek',
-                exFriday: 'Friday the 6th (English)'
+                jsonDesc: 'Returns the verdict and a random reason. Params: tz, lang, date.',
+                badgeTitle: 'Badge',
+                badgeDesc: `Live SVG badge for your README. Params: tz, lang, style (${STYLES_HINT}).`,
+                cliDesc: 'Plain text. HTTP 200 when it is safe, 423 when it is not, so curl --fail stops the deploy.'
             },
             el: {
                 pageTitle: 'Να κάνω deploy σήμερα; - Should I Deploy?',
                 heading: 'Να κάνω deploy;',
                 subtitle: 'Μάθε αν σήμερα είναι μέρα για deploy',
+                language: 'Γλώσσα',
                 timezone: 'Ζώνη ώρας',
                 customDate: 'Ημερομηνία (προαιρετικά)',
                 check: 'Έλεγχος',
@@ -496,18 +605,16 @@
                 error: 'Σφάλμα',
                 connectionFailed: 'Αποτυχία σύνδεσης',
                 connectionMessage: 'Δεν μπόρεσα να συνδεθώ με το API',
-                apiTitle: 'Απευθείας πρόσβαση στο API',
-                exDefault: 'Προεπιλογή (αγγλικά, UTC)',
-                exGreek: 'Στα ελληνικά',
-                exGreekAthens: 'Ελληνικά + ώρα Αθήνας',
-                exBulgarianSofia: 'Βουλγαρικά + ώρα Σόφιας',
-                exChristmasGreek: 'Χριστούγεννα στα ελληνικά',
-                exFriday: 'Παρασκευή 6 Δεκεμβρίου (αγγλικά)'
+                jsonDesc: 'Επιστρέφει την απόφαση και έναν τυχαίο λόγο. Παράμετροι: tz, lang, date.',
+                badgeTitle: 'Badge',
+                badgeDesc: `Live SVG badge για το README σου. Παράμετροι: tz, lang, style (${STYLES_HINT}).`,
+                cliDesc: 'Σκέτο κείμενο. HTTP 200 όταν είναι ασφαλές, 423 όταν δεν είναι, οπότε το curl --fail σταματάει το deploy.'
             },
             bg: {
                 pageTitle: 'Да деплойна ли днес? - Should I Deploy?',
                 heading: 'Да деплойна ли?',
                 subtitle: 'Разбери дали днес е ден за деплой',
+                language: 'Език',
                 timezone: 'Часова зона',
                 customDate: 'Дата (по желание)',
                 check: 'Провери',
@@ -522,31 +629,166 @@
                 error: 'Грешка',
                 connectionFailed: 'Няма връзка',
                 connectionMessage: 'Не успях да се свържа с API-то',
-                apiTitle: 'Директен достъп до API-то',
-                exDefault: 'По подразбиране (английски, UTC)',
-                exGreek: 'На гръцки',
-                exGreekAthens: 'Гръцки + часът в Атина',
-                exBulgarianSofia: 'Български + часът в София',
-                exChristmasGreek: 'Коледа на гръцки',
-                exFriday: 'Петък, 6 декември (английски)'
+                jsonDesc: 'Връща решението и случайна причина. Параметри: tz, lang, date.',
+                badgeTitle: 'Значка',
+                badgeDesc: `Жива SVG значка за README-то ти. Параметри: tz, lang, style (${STYLES_HINT}).`,
+                cliDesc: 'Обикновен текст. HTTP 200, когато е безопасно, 423, когато не е, така че curl --fail спира деплоя.'
+            },
+            es: {
+                pageTitle: '¿Debería desplegar hoy? - Should I Deploy?',
+                heading: '¿Debería desplegar hoy?',
+                subtitle: 'Descubre si hoy es buen día para desplegar',
+                language: 'Idioma',
+                timezone: 'Zona horaria',
+                customDate: 'Fecha (opcional)',
+                check: 'Comprobar',
+                loading: 'Comprobando...',
+                deployYes: 'Luz verde para desplegar',
+                deployNo: 'Mejor hoy no',
+                statusYes: 'Aprobado',
+                statusNo: 'No recomendado',
+                detailTimezone: 'Zona horaria',
+                detailDate: 'Fecha',
+                detailStatus: 'Estado',
+                error: 'Error',
+                connectionFailed: 'Error de conexión',
+                connectionMessage: 'No se pudo conectar con la API',
+                jsonDesc: 'Devuelve el veredicto y un motivo al azar. Parámetros: tz, lang, date.',
+                badgeTitle: 'Badge',
+                badgeDesc: `Badge SVG en vivo para tu README. Parámetros: tz, lang, style (${STYLES_HINT}).`,
+                cliDesc: 'Texto plano. HTTP 200 si es seguro desplegar y 423 si no, así curl --fail frena el despliegue.'
+            },
+            // Anything missing here falls back to es
+            'es-AR': {
+                pageTitle: '¿Debería deployar hoy? - Should I Deploy?',
+                heading: '¿Debería deployar hoy?',
+                subtitle: 'Fijate si hoy es buen día para deployar',
+                check: 'Revisar',
+                loading: 'Revisando...',
+                deployYes: 'Luz verde para deployar',
+                cliDesc: 'Texto plano. HTTP 200 si podés deployar y 423 si no, así curl --fail frena el deploy.'
+            },
+            pt: {
+                pageTitle: 'Devo fazer deploy hoje? - Should I Deploy?',
+                heading: 'Devo fazer deploy hoje?',
+                subtitle: 'Descubra se hoje é um bom dia para deploy',
+                language: 'Idioma',
+                timezone: 'Fuso horário',
+                customDate: 'Data (opcional)',
+                check: 'Verificar',
+                loading: 'Verificando...',
+                deployYes: 'Sinal verde para o deploy',
+                deployNo: 'Melhor não hoje',
+                statusYes: 'Aprovado',
+                statusNo: 'Não recomendado',
+                detailTimezone: 'Fuso horário',
+                detailDate: 'Data',
+                detailStatus: 'Status',
+                error: 'Erro',
+                connectionFailed: 'Falha na conexão',
+                connectionMessage: 'Não foi possível conectar à API',
+                jsonDesc: 'Retorna o veredito e um motivo aleatório. Parâmetros: tz, lang, date.',
+                badgeTitle: 'Badge',
+                badgeDesc: `Badge SVG ao vivo para o seu README. Parâmetros: tz, lang, style (${STYLES_HINT}).`,
+                cliDesc: 'Texto puro. HTTP 200 quando é seguro, 423 quando não é, então o curl --fail barra o deploy.'
+            },
+            cs: {
+                pageTitle: 'Mám dnes nasadit? - Should I Deploy?',
+                heading: 'Mám dnes nasadit?',
+                subtitle: 'Zjisti, jestli je dnes vhodný den na nasazení',
+                language: 'Jazyk',
+                timezone: 'Časové pásmo',
+                customDate: 'Datum (volitelné)',
+                check: 'Zkontrolovat',
+                loading: 'Kontroluji...',
+                deployYes: 'Zelená pro nasazení',
+                deployNo: 'Dnes radši ne',
+                statusYes: 'Schváleno',
+                statusNo: 'Nedoporučeno',
+                detailTimezone: 'Časové pásmo',
+                detailDate: 'Datum',
+                detailStatus: 'Stav',
+                error: 'Chyba',
+                connectionFailed: 'Chyba připojení',
+                connectionMessage: 'Nepodařilo se připojit k API',
+                jsonDesc: 'Vrátí verdikt a náhodný důvod. Parametry: tz, lang, date.',
+                badgeTitle: 'Odznak',
+                badgeDesc: `Živý SVG odznak do README. Parametry: tz, lang, style (${STYLES_HINT}).`,
+                cliDesc: 'Čistý text. HTTP 200, když se nasadit dá, 423, když ne, takže curl --fail nasazení zastaví.'
+            },
+            sl: {
+                pageTitle: 'Naj danes objavim kodo? - Should I Deploy?',
+                heading: 'Naj danes objavim kodo?',
+                subtitle: 'Preveri, ali je danes primeren dan za objavo',
+                language: 'Jezik',
+                timezone: 'Časovni pas',
+                customDate: 'Datum (neobvezno)',
+                check: 'Preveri',
+                loading: 'Preverjam...',
+                deployYes: 'Zelena luč za objavo',
+                deployNo: 'Danes raje ne',
+                statusYes: 'Odobreno',
+                statusNo: 'Ni priporočljivo',
+                detailTimezone: 'Časovni pas',
+                detailDate: 'Datum',
+                detailStatus: 'Stanje',
+                error: 'Napaka',
+                connectionFailed: 'Povezava ni uspela',
+                connectionMessage: 'Povezava z API-jem ni uspela',
+                jsonDesc: 'Vrne odločitev in naključen razlog. Parametri: tz, lang, date.',
+                badgeTitle: 'Značka',
+                badgeDesc: `Živa SVG značka za README. Parametri: tz, lang, style (${STYLES_HINT}).`,
+                cliDesc: 'Navadno besedilo. HTTP 200, ko je objava varna, 423, ko ni, zato curl --fail ustavi objavo.'
             }
         };
 
-        const DATE_LOCALES = { en: undefined, el: 'el-GR', bg: 'bg-BG' };
-
         const languageSelect = document.getElementById('language');
+        const timezoneSelect = document.getElementById('timezone');
+        const AVAILABLE_LANGS = [...languageSelect.options].map(o => o.value);
+
+        // Same fallback as the API: exact match (es-AR), then base language (es), then English
+        function resolveLang(lang) {
+            if (!lang) return 'en';
+            if (AVAILABLE_LANGS.includes(lang)) return lang;
+            const base = lang.split('-')[0];
+            return AVAILABLE_LANGS.includes(base) ? base : 'en';
+        }
 
         function t(key) {
-            return (UI_STRINGS[languageSelect.value] || UI_STRINGS.en)[key];
+            const lang = languageSelect.value;
+            const base = lang.split('-')[0];
+            return (UI_STRINGS[lang] || {})[key] ?? (UI_STRINGS[base] || {})[key] ?? UI_STRINGS.en[key];
+        }
+
+        // Keep the slash in timezones like Europe/Athens readable
+        function queryValue(value) {
+            return encodeURIComponent(value).replace(/%2F/g, '/');
+        }
+
+        function updateExamples() {
+            const lang = languageSelect.value;
+            let query = `tz=${queryValue(timezoneSelect.value)}`;
+            if (lang !== 'en') query += `&lang=${queryValue(lang)}`;
+
+            const jsonUrl = `${API_BASE}api.php?${query}`;
+            const badgeUrl = `${API_BASE}badge.php?${query}`;
+            const jsonExample = document.getElementById('jsonExample');
+
+            jsonExample.href = jsonUrl;
+            jsonExample.textContent = jsonUrl;
+            document.getElementById('badgePreview').src = badgeUrl;
+            document.getElementById('badgeExample').textContent = `![Should I Deploy?](${badgeUrl})`;
+            document.getElementById('cliExample').textContent = `curl --fail -s "${API_BASE}cli.php?${query}" && ./deploy.sh`;
         }
 
         function applyLanguage() {
-            const lang = UI_STRINGS[languageSelect.value] ? languageSelect.value : 'en';
-            document.documentElement.lang = lang;
+            document.documentElement.lang = languageSelect.value;
             document.title = t('pageTitle');
+            languageSelect.setAttribute('aria-label', t('language'));
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 el.textContent = t(el.dataset.i18n);
             });
+            updateExamples();
         }
 
         languageSelect.addEventListener('change', function() {
@@ -559,12 +801,28 @@
             }
         });
 
+        timezoneSelect.addEventListener('change', updateExamples);
+
+        function formatDate(data, hasCustomDate) {
+            const locale = languageSelect.value === 'en' ? undefined : languageSelect.value;
+            const date = new Date(data.date);
+            try {
+                // A custom date is checked as a whole day, so only show the day
+                return hasCustomDate
+                    ? date.toLocaleDateString(locale, { timeZone: 'UTC', dateStyle: 'medium' })
+                    : date.toLocaleString(locale, { timeZone: data.timezone, dateStyle: 'medium', timeStyle: 'short' });
+            } catch (e) {
+                return date.toLocaleString(locale);
+            }
+        }
+
         // Deploy form functionality
         document.getElementById('deployForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
             const formData = new FormData(e.target);
             const params = new URLSearchParams();
+            params.append('lang', languageSelect.value);
 
             for (let [key, value] of formData.entries()) {
                 if (value) params.append(key, value);
@@ -578,7 +836,7 @@
             result.style.display = 'none';
 
             try {
-                const response = await fetch(`https://orestislef.gr/shouldideploy/api.php?${params.toString()}`);
+                const response = await fetch(`${API_BASE}api.php?${params.toString()}`);
                 const data = await response.json();
 
                 // Hide loading
@@ -591,7 +849,7 @@
                     const cssClass = data.shouldideploy ? 'success' : 'danger';
                     const details = `
                         <strong>${t('detailTimezone')}:</strong> ${data.timezone}<br>
-                        <strong>${t('detailDate')}:</strong> ${new Date(data.date).toLocaleString(DATE_LOCALES[languageSelect.value])}<br>
+                        <strong>${t('detailDate')}:</strong> ${formatDate(data, params.has('date'))}<br>
                         <strong>${t('detailStatus')}:</strong> ${data.shouldideploy ? t('statusYes') : t('statusNo')}
                     `;
 
@@ -620,13 +878,17 @@
             result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        // Set current date as default
-        document.getElementById('customDate').valueAsDate = new Date();
+        // Default to the visitor's timezone, so an empty date means "right now" for them
+        const browserTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        if (browserTz) {
+            if (![...timezoneSelect.options].some(o => o.value === browserTz)) {
+                timezoneSelect.add(new Option(browserTz, browserTz), 1);
+            }
+            timezoneSelect.value = browserTz;
+        }
 
         // Use the saved language, otherwise the browser's if we have it
-        const savedLang = localStorage.getItem('shouldideploy-lang');
-        const browserLang = (navigator.language || 'en').slice(0, 2);
-        languageSelect.value = UI_STRINGS[savedLang] ? savedLang : (UI_STRINGS[browserLang] ? browserLang : 'en');
+        languageSelect.value = resolveLang(localStorage.getItem('shouldideploy-lang') || navigator.language);
         applyLanguage();
     </script>
 </body>
